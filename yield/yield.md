@@ -109,3 +109,6 @@ read.php
 
 
 总之， `yield` 强调的是用即调之，例如读取文件的时候不需要提前去内存取出这些数据，再一一获取。 而`yield`则解决了这些问题，他只记录一条信息，那就是你执行到哪儿了。 再根据你的位置进行下一步
+
+
+代码示例地址 ： https://github.com/surest-sky/example/tree/master/yield
