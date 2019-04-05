@@ -19,7 +19,7 @@ $http->set(
 );
 
 $http->on('request', function($request, $response) {
-    
+    $response->cookie('test', 'name', time() + 1800);
     $response->end("HttpServer");
 });
 
