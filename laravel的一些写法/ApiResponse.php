@@ -3,9 +3,10 @@
 namespace App\Http\Api\Helpers;
 
 use Symfony\Component\HttpFoundation\Response as FoundationResponse;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Illuminate\Http\Exceptions\HttpResponseException;  # laravel 写法
 
+# 如果是tp的话，这里 Use 一个tp的Http响应Exception方法即可
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 Trait ApiResponse
