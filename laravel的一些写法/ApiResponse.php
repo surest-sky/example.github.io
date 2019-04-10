@@ -3,9 +3,7 @@
 namespace App\Http\Api\Helpers;
 
 use Symfony\Component\HttpFoundation\Response as FoundationResponse;
-use Illuminate\Http\Exceptions\HttpResponseException;  # laravel 写法
-
-# 如果是tp的话，这里 Use 一个tp的Http响应Exception方法即可
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 
@@ -14,14 +12,14 @@ Trait ApiResponse
     /**
      * @var int
      */
-    protected $statusCode = FoundationResponse::HTTP_OK;
+    public $code = FoundationResponse::HTTP_OK;
 
     /**
      * @return mixed
      */
     public function getStatusCode()
     {
-        return $this->statusCode;
+        return $this->code;
     }
 
     /**
@@ -31,7 +29,7 @@ Trait ApiResponse
     public function setStatusCode($statusCode)
     {
 
-        $this->statusCode = $statusCode;
+        $this->code = $statusCode;
         return $this;
     }
 
@@ -53,15 +51,15 @@ Trait ApiResponse
      * @param null $code
      * @return mixed
      */
-    public function status($status, array $data, $code = null){
+    public function status($msg, array $data, $code = null, $errcode = null){
 
         if ($code){
             $this->setStatusCode($code);
         }
 
         $status = [
-            'status' => $status,
-            'code' => $this->statusCode
+            'msg' => $msg,
+            'code' => $errcode ?? ''
         ];
 
         $data = array_merge($status,$data);
@@ -70,35 +68,12 @@ Trait ApiResponse
     }
 
     /**
-     * @param $message
-     * @param int $code
-     * @param string $status
-     * @return mixed
-     */
-    public function failed($message, $code = FoundationResponse::HTTP_BAD_REQUEST, $status = '错误'){
-
-        $this->setStatusCode($code)->message($message,$status);
-    }
-
-    /**
-     * @param $message
-     * @param string $status
-     * @return mixed
-     */
-    public function message($message, $status = "获取成功"){
-
-        $this->status($status,[
-            'message' => $message
-        ]);
-    }
-
-    /**
      * @param string $message
      * @return mixed
      */
-    public function internalError($message = "服务器错误"){
-
-        $this->failed($message,FoundationResponse::HTTP_INTERNAL_SERVER_ERROR);
+    public function internalError($message = "服务器错误", $errcode = 5000)
+    {
+        $this->status($message, [],  FoundationResponse::HTTP_INTERNAL_SERVER_ERROR, $errcode);
     }
 
     /**
@@ -107,8 +82,7 @@ Trait ApiResponse
      */
     public function created($message = "创建成功")
     {
-        $this->setStatusCode(FoundationResponse::HTTP_CREATED)
-            ->message($message);
+        $this->status($message, [],  FoundationResponse::HTTP_CREATED);
 
     }
 
@@ -117,9 +91,9 @@ Trait ApiResponse
      * @param string $status
      * @return mixed
      */
-    public function success($data, $status = "获取成功"){
+    public function success($data, $message = "success"){
 
-        $this->status($status,compact('data'));
+        $this->status($message,compact('data'));
     }
 
     /**
@@ -128,11 +102,18 @@ Trait ApiResponse
      */
     public function notFond($message = '未找到')
     {
-        $this->failed($message,Foundationresponse::HTTP_NOT_FOUND);
+        $this->status($message, [],  Foundationresponse::HTTP_NOT_FOUND, 4004);
     }
 
-    public function frobidden($message = '未授权')
+    public function frobidden($message = '未授权', $errcode = 4001, $code = 401)
     {
-        $this->failed($message,Foundationresponse::HTTP_FORBIDDEN);
+        $this->status($message, [],  $code, $errcode);
     }
+
+    public function failed($message = '授权失败', $errcode = 4003, $code = 403)
+    {
+        $this->status($message, [],  $code, $errcode);
+    }
+
+
 }
