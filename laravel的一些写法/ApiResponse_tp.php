@@ -40,6 +40,10 @@ Trait ApiResponse
     {
         if( $this->request->isAjax() ) {
             $type = 'json';
+        }else{
+            if( is_array($data) ) {
+                $data = json_encode($data);
+            }
         }
 
         $type = $this->getResponseType();
