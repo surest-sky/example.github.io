@@ -1,10 +1,9 @@
 <?php
 
-namespace app\common\controller\Helpers;
+namespace app\common\Helpers;
 
-use think\exception\HttpException;
-use think\Response;
-use \think\exception\HttpResponseException;
+use think\exception\HttpResponseException;
+use think\response\Json as JsonResponse;
 
 Trait ApiResponse
 {
@@ -38,17 +37,10 @@ Trait ApiResponse
      */
     public function respond($data, $header = [])
     {
-        if( $this->request->isAjax() ) {
-            $type = 'json';
-        }else{
-            if( is_array($data) ) {
-                $data = json_encode($data);
-            }
-        }
 
-        $type = $this->getResponseType();
+        $type = $this->request->isAjax() ? 'json' : $this->getResponseType();
 
-        $response = Response::create($data, $type, $this->code, $header);
+        $response = JsonResponse::create($data, $type, $this->code, $header);
 
         throw new HttpResponseException($response);
     }
@@ -68,7 +60,9 @@ Trait ApiResponse
             'msg' => $msg,
             'code' => $errcode ?? ''
         ];
+
         $data = array_merge($status, $data);
+
         $this->respond($data);
     }
 
@@ -119,3 +113,4 @@ Trait ApiResponse
         $this->status($message, [], $code, $errcode);
     }
 }
+
