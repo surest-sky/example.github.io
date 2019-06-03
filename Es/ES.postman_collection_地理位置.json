@@ -1,0 +1,581 @@
+{
+	"info": {
+		"name": "ES",
+		"_postman_id": "03a89b6f-6d72-462c-9737-7b148eefa454",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "地理位置的索引",
+			"description": "",
+			"item": [
+				{
+					"name": "创建索引",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:9200/show",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"show"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "创建索引字段类型",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n    \"store\": { \n            \"_all\":{ \n              \"enabled\":false \n            }, \n            \"properties\": { \n                \"id\": { \n                    \"type\": \"integer\" \n                }, \n                \"name\": { \n                    \"type\": \"text\", \n                    \"analyzer\": \"ik_max_word\" \n                }, \n                \"type\": { \n                    \"type\": \"integer\"\n                },\n                \"position\": {\n\t\t\t        \"properties\": {\n\t\t\t            \"location\": {\n\t\t\t                \"type\": \"geo_point\"\n\t\t\t            }\n\t\t\t        }\n\t\t      }\n            } \n        } \n  }"
+						},
+						"url": {
+							"raw": "http://localhost:9200/show/store/_mapping",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"show",
+								"store",
+								"_mapping"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "创建索引文档",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n    \"id\" : 1, \n    \"name\" :  \"建升大厦\", \n    \"type\" :  1,\n    \"position\":{\n    \t\"location\" : {\n            \"lat\" : 22.6482057076,\n            \"lon\" : 114.1250142233\n        }\n    }\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9200/show/test/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"show",
+								"test",
+								"1"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "创建索引文档 2",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n    \"id\" : 2, \n    \"name\" :  \"深圳市第三人民医院\", \n    \"type\" :  1,\n    \"position\":{\n    \t\"location\" : {\n            \"lat\" : 22.6352587415,\n            \"lon\" : 114.1289020619\n        }\n    }\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9200/show/test/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"show",
+								"test",
+								"2"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "创建索引文档 3",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n    \"id\" : 3, \n    \"name\" :  \"深圳百合医院\", \n    \"type\" :  1,\n    \"position\":{\n    \t\"location\" : {\n            \"lat\" : 22.6164455768,\n            \"lon\" : 114.1395956293\n        }\n    }\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9200/show/test/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"show",
+								"test",
+								"3"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "创建索引文档 4",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n    \"id\" : 4, \n    \"name\" :  \"深圳北站\", \n    \"type\" : 1,\n    \"position\":{\n    \t\"location\" : {\n            \"lat\" : 22.6083194998,\n            \"lon\" : 114.0300216169\n        }\n    }\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9200/show/store/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"show",
+								"store",
+								"4"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "根据地理位置查询索引",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"query\": {\n        \"bool\": {\n        \t\"must\": {\n        \t\t\"match_all\": {\n        \t\t\t\n        \t\t}\t\n        \t},\n            \"filter\": {\n                \"geo_distance\": {\n                \t\"distance\" : \"10km\",\n                \t\"position.location\": {\n\t                    \"lat\": 22.6497899384,\n\t                    \"lon\": 114.1258725301\n                \t}\n                }\n            }\n        }\n    },\n    \"sort\": [ \n    { \n     \"_geo_distance\": { \n     \"position.location\": { \n      \"lat\": 22.6497899384, \n      \"lon\": 114.1258725301\n     }, \n     \"order\": \"asc\", \n     \"unit\": \"km\", \n     \"mode\": \"min\"\n     } \n    } \n    ]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9200/show/store/_search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"show",
+								"store",
+								"_search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "根据地理位置查询索引+分词",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "2012Dibaba",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "elastic",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"from\":3,\n\t\"size\":3,\n    \"query\": {\n        \"bool\": {\n        \t\"must\": {\n        \t\t\"match\": {\n        \t\t\t\"name\": \"深圳\"\n        \t\t}\t\n        \t},\n            \"filter\": {\n                \"geo_distance\": {\n                \t\"distance\" : \"100km\",\n                \t\"position.location\": {\n\t                    \"lat\": 22.649928,\n\t                    \"lon\": 114.125646\n                \t}\n                }\n            }\n        }\n    },\n    \"sort\": [ \n    { \n     \"_geo_distance\": { \n     \"position.location\": { \n      \"lat\": 22.6497899384, \n      \"lon\": 114.1258725301\n     }, \n     \"order\": \"asc\", \n     \"unit\": \"km\", \n     \"mode\": \"min\"\n     } \n    } \n    ]\n}"
+						},
+						"url": {
+							"raw": "{{xs_es}}/_search",
+							"host": [
+								"{{xs_es}}"
+							],
+							"path": [
+								"_search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "根据地理位置查询索引+分词 Copy",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "2012Dibaba",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "elastic",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"from\":2,\n\t\"size\":2,\n    \"query\": {\n        \"bool\": {\n        \t\"must\": {\n        \t\t\"match\": {\n        \t\t\t\"name\": \"深圳\"\n        \t\t}\t\n        \t},\n            \"filter\": {\n                \"geo_distance\": {\n                \t\"distance\" : \"100km\",\n                \t\"position.location\": {\n\t                    \"lat\": 22.649928,\n\t                    \"lon\": 114.125646\n                \t}\n                }\n            }\n        }\n    },\n    \"sort\": [ \n    { \n     \"_geo_distance\": { \n     \"position.location\": { \n      \"lat\": 22.6497899384, \n      \"lon\": 114.1258725301\n     }, \n     \"order\": \"asc\", \n     \"unit\": \"km\", \n     \"mode\": \"min\"\n     } \n    } \n    ]\n}"
+						},
+						"url": {
+							"raw": "{{xs_es}}/_search",
+							"host": [
+								"{{xs_es}}"
+							],
+							"path": [
+								"_search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "根据地理位置查询索引+分词 (类型查询)",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "2012Dibaba",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "elastic",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"query\": {\n        \"bool\": {\n        \t\"must\": [{\"match\":{\"name\":\"家\"}},{\"match\":{\"type\":0}}],\n            \"filter\": {\n                \"geo_distance\": {\n                \t\"distance\" : \"10km\",\n                \t\"position.location\": {\n\t                    \"lat\": 22.6497899384,\n\t                    \"lon\": 114.1258725301\n                \t}\n                }\n            }\n        }\n    },\n    \"sort\": [ \n    { \n     \"_geo_distance\": { \n     \"position.location\": { \n      \"lat\": 22.6497899384, \n      \"lon\": 114.1258725301\n     }, \n     \"order\": \"asc\", \n     \"unit\": \"km\", \n     \"mode\": \"min\"\n     } \n    } \n    ]\n}"
+						},
+						"url": {
+							"raw": "{{xs_es}}/_search",
+							"host": [
+								"{{xs_es}}"
+							],
+							"path": [
+								"_search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "根据地理位置查询索引+分词 (范围查询)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"query\": {\n        \"bool\": {\n        \t\"must\": [{\"match\":{\"name\":\"家\"}},{\"match\":{\"type\":0}}],\n            \"filter\": {\n                \"geo_distance\": {\n                \t\"distance\" : \"10km\",\n                \t\"position.location\": {\n\t                    \"lat\": 22.6497899384,\n\t                    \"lon\": 114.1258725301\n                \t}\n                }\n            }\n        }\n    },\n    \"sort\": [ \n    { \n     \"_geo_distance\": { \n     \"position.location\": { \n      \"lat\": 22.6497899384, \n      \"lon\": 114.1258725301\n     }, \n     \"order\": \"asc\", \n     \"unit\": \"km\", \n     \"mode\": \"min\"\n     } \n    } \n    ]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9200/show/store/_search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"show",
+								"store",
+								"_search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "根据地理位置查询索引+分词 (范围查询) +分页",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"size\": 2,\n\t\"from\": 2,\n    \"query\": {\n        \"bool\": {\n        \t\"must\": [{\"match\":{\"name\":\"家\"}},{\"match\":{\"type\":0}}],\n            \"filter\": {\n                \"geo_distance\": {\n                \t\"distance\" : \"10km\",\n                \t\"position.location\": {\n\t                    \"lat\": 22.6497899384,\n\t                    \"lon\": 114.1258725301\n                \t}\n                }\n            }\n        }\n    },\n    \"sort\": [ \n    { \n     \"_geo_distance\": { \n     \"position.location\": { \n      \"lat\": 22.6497899384, \n      \"lon\": 114.1258725301\n     }, \n     \"order\": \"asc\", \n     \"unit\": \"km\", \n     \"mode\": \"min\"\n     } \n    } \n    ]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9200/show/store/_search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"show",
+								"store",
+								"_search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "查看mymapping",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"query\": {\n        \"bool\": {\n        \t\"must\": {\n        \t\t\"match\": {\n        \t\t\t\"name\": \"深圳百合医院\"\n        \t\t}\t\n        \t},\n            \"filter\": {\n                \"geo_distance\": {\n                \t\"distance\" : \"10km\",\n                \t\"position.location\": {\n\t                    \"lat\": 22.6497899384,\n\t                    \"lon\": 114.1258725301\n                \t}\n                }\n            }\n        }\n    },\n    \"sort\": [ \n    { \n     \"_geo_distance\": { \n     \"position.location\": { \n      \"lat\": 22.6497899384, \n      \"lon\": 114.1258725301\n     }, \n     \"order\": \"asc\", \n     \"unit\": \"km\", \n     \"mode\": \"min\"\n     } \n    } \n    ]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9200/show/_mapping/store",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"show",
+								"_mapping",
+								"store"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "查看mymapping Copy",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"query\": {\n        \"bool\": {\n        \t\"must\": {\n        \t\t\"match\": {\n        \t\t\t\"name\": \"深圳百合医院\"\n        \t\t}\t\n        \t},\n            \"filter\": {\n                \"geo_distance\": {\n                \t\"distance\" : \"10km\",\n                \t\"position.location\": {\n\t                    \"lat\": 22.6497899384,\n\t                    \"lon\": 114.1258725301\n                \t}\n                }\n            }\n        }\n    },\n    \"sort\": [ \n    { \n     \"_geo_distance\": { \n     \"position.location\": { \n      \"lat\": 22.6497899384, \n      \"lon\": 114.1258725301\n     }, \n     \"order\": \"asc\", \n     \"unit\": \"km\", \n     \"mode\": \"min\"\n     } \n    } \n    ]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9200/show/_mapping/store",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"show",
+								"_mapping",
+								"store"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "更新查询",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"query\": {\n        \"match\": {\n        \t\t\"name\": \"深圳百合医院\"\n        \t}\n    }\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9200/show/test/_search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"show",
+								"test",
+								"_search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "查询所有",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"from\": 2,\n\t\"size\" :2\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9200/show/store/_search?q=type:1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"show",
+								"store",
+								"_search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "type:1",
+									"equals": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "更新索引",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"size\": 1,\n    \"query\": {\n        \"match\": {\n        \t\t\"name\": \"深圳百合医院\"\n        \t}\n    }\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9200/show/test/_search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"show",
+								"test",
+								"_search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
