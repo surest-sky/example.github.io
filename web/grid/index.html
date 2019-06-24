@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Grid</title>
+</head>
+<style>
+    /* fraction 单位 */
+    /* .container {
+        display: grid;
+        grid-template-columns: 1fr 2fr 2fr 3fr;
+        grid-template-rows: 50px 50px;  
+    } */
+
+    /* 高级响应 - repeat()*/
+    /* .container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(2 50px);  
+    } */
+
+    /* 高级响应 - auto-fit*/
+    /* .container {
+        display: grid;
+        grid-gap: 5px;
+        grid-template-columns: repeat(auto-fit, 200px);
+        grid-template-rows: repeat(2 50px);  
+    } */
+
+    /* 高级响应 - auto-fit*/
+    .container {
+        display: grid;
+        grid-gap: 5px;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        grid-template-rows: repeat(2 50px);  
+    }
+
+    div>img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    
+    .container > div {
+        color: white;
+        text-align: center;
+        line-height: 50px;
+        font-size: 35px
+    }
+    
+</style>
+
+<body>
+    <div class="container">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</body>
+<script>
+    var divs =  document.querySelectorAll('.container > div')
+    var imgs = [
+        "http://gss0.baidu.com/7LsWdDW5_xN3otqbppnN2DJv/lvpics/pic/item/d439b6003af33a8742179f39ce5c10385343b59f.jpg",
+        "http://img3.imgtn.bdimg.com/it/u=3969420365,2984364812&fm=26&gp=0.jpg",
+        "http://img4.imgtn.bdimg.com/it/u=2676816838,3375799192&fm=26&gp=0.jpg",
+        "http://img4.imgtn.bdimg.com/it/u=330999014,214982738&fm=26&gp=0.jpg",
+        "http://img2.imgtn.bdimg.com/it/u=851722448,1513143864&fm=26&gp=0.jpg",
+        "http://img5.imgtn.bdimg.com/it/u=2669698322,3461023855&fm=26&gp=0.jpg"
+    ]
+    divs.forEach((div) => {
+        var color =  '#' +
+        (function(color) {
+            return (color += '0123456789abcdef' [Math.floor(Math.random() * 16)]) && (color.length == 6) ? color : arguments.callee(color);
+        })('');
+        var img = new Image()
+        img.src = imgs[Math.floor(Math.random() * (imgs.length))]
+        console.log(img)
+        div.appendChild(img)
+        console.log(div)
+        div.style.background = color
+    })
+</script>
+</html>
