@@ -5,13 +5,16 @@ import (
 	"fmt"
 	"html/template"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
 )
 
-func upload(w http.ResponseWriter, r *http.Request) {
+// 参考 : https://www.cnblogs.com/jkko123/p/7001673.html
+
+func uploadOne(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("methods:", r.Method)
 
 	if r.Method == "GET" {
@@ -32,7 +35,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 		token := fmt.Sprintf("%x", h.Sum(nil))
 
 		// 解析模板引擎
-		t, _ := template.ParseFiles("upload.html")
+		t, _ := template.ParseFiles("uploadMore.html")
 
 		// 输出模板和参数token
 		t.Execute(w, token)
@@ -54,7 +57,9 @@ func upload(w http.ResponseWriter, r *http.Request) {
 
 		fmt.Fprintf(w, "%v", handler.Header)
 
-		f, err := os.OpenFile("./test/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+		os.Mkdir("./upload", os.ModePerm)
+
+		f, err := os.OpenFile("./upload/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
 
 		if err != nil {
 			fmt.Println(err)
@@ -84,7 +89,53 @@ func upload(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func uploadMore(w http.ResponseWriter, r *http.Request)  {
+
+	if r.Method == "POST" {
+		r. ParseMultipartForm(30 << 20)
+
+		// 多图获取图片信息
+		files  := r.MultipartForm.File["file"]
+
+		len := len(files)
+
+		for i :=0; i < len; i++{
+			file, err := files[i].Open()
+			defer file.Close()
+
+			checkErr(err)
+
+			os.Mkdir("./upload", os.ModePerm)
+
+			cur, err := os.Create("./upload/" + files[i].Filename)
+
+			defer cur.Close()
+
+			io.Copy(cur, file)
+
+			r.ParseForm()
+
+			fmt.Println("name", template.HTMLEscapeString(r.Form.Get("name")) )
+
+			template.HTMLEscape(w, []byte(r.Form.Get("name")))
+		}
+
+	} else {
+		t, _ := template.ParseFiles("./uploadOne.html")
+
+		t.Execute(w, nil)
+	}
+}
+
+
+func checkErr(err error)  {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 func main() {
-	http.HandleFunc("/upload", upload)
+	http.HandleFunc("/upload", uploadOne)
+	http.HandleFunc("/uploadMore", uploadMore)
 	http.ListenAndServe(":8081", nil)
 }

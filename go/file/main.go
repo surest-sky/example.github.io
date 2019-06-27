@@ -50,21 +50,29 @@ func main()  {
 	fmt.Println(getCurrentPath())
 	fmt.Println(filepath.Abs(filepath.Dir(os.Args[0])))
 
+	// 获取程序执行的路径
 	file , err := exec.LookPath(os.Args[0])
 	fmt.Println(file)
 
 	// 获取绝对路径
 	fmt.Println(filepath.Abs(`/a/b/c`))
 
-	//dirs_handler(s)
+	dirs_handler(s)
 	// 结果
-	//\wangshubo1989\article\details\74330674
-	///wangshubo1989/article/details/74330674
-	//wangshubo1989/article/details/74330674
-	//\wangshubo1989\article\details
-	//74330674
-	///wangshubo1989/article/details/ 74330674
-	//jpg
+
+	//	\wangshubo1989\article\details\74330674
+	//	/wangshubo1989/article/details/74330674
+	//	wangshubo1989/article/details/74330674
+	//	\wangshubo1989\article\details
+	//	74330674
+	//	/wangshubo1989/article/details/ 74330674
+	//	jpg
+	//	d\e <nil>
+	//	C:\Users\Administrator\AppData\Local\Temp\
+	//	C:\Users\Administrator\AppData\Local\Temp <nil>
+	//	C:\Users\Administrator\AppData\Local\Temp\___1go_build_main_go.exe
+	//	E:\a\b\c <nil>
+
 	// 执行的时候切记， 是在file 目录下 使用 go run main.go 执行的话， 则在file下创建目录
 }
 
