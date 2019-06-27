@@ -35,7 +35,7 @@ func uploadOne(w http.ResponseWriter, r *http.Request) {
 		token := fmt.Sprintf("%x", h.Sum(nil))
 
 		// 解析模板引擎
-		t, _ := template.ParseFiles("uploadMore.html")
+		t, _ := template.ParseFiles("uploadOne.html")
 
 		// 输出模板和参数token
 		t.Execute(w, token)
@@ -121,7 +121,7 @@ func uploadMore(w http.ResponseWriter, r *http.Request)  {
 		}
 
 	} else {
-		t, _ := template.ParseFiles("./uploadOne.html")
+		t, _ := template.ParseFiles("./uploadMore.html")
 
 		t.Execute(w, nil)
 	}
