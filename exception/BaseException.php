@@ -9,6 +9,8 @@
 namespace app\common\exception;
 
 
+use app\common\server\CrossDomain;
+use app\common\server\Log;
 use app\common\Traits\ApiResponse;
 
 class BaseException
@@ -26,8 +28,22 @@ class BaseException
         }
     }
 
+    public function getLevel() : int
+    {
+        return $this->level ?? 0;
+    }
+
     public function showMsg($msg, array $error_info, $code = 500)
     {
-        return $this->status($msg, compact('error_info'), $code, $code);
+        # 写入日志
+        Log::setException()->setTitle($msg)->setLevel($this->getLevel())->setContent($error_info);
+
+        CrossDomain::credentials();
+
+        if(config('app.app_debug')) {
+            return $this->status($msg, compact('error_info'), $code, $code);
+        }else{
+            return $this->status("服务器繁忙", [], $code, $code);
+        }
     }
 }

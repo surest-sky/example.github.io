@@ -10,6 +10,7 @@ namespace app\common\exception;
 
 use Exception;
 use think\exception\Handle;
+use think\facade\Log;
 use think\Response;
 
 /**
@@ -25,6 +26,7 @@ class Handler extends Handle
     protected $handler_exceptions = [
         '\app\common\exception\EsearchHandler',
         '\app\common\exception\RouteExceptionHandler',
+        '\app\common\exception\SetHandler',
         '\app\common\exception\SystemHandler',
     ];
 
@@ -38,13 +40,17 @@ class Handler extends Handle
 //            if( !request()->isAjax() || $isDebug) {
 //                return parent::render($e);
 //            }
-
+            $class_ = get_class($e);
             # 错误的信息, 用于写入日志
             $error_info = [
                 'code' => $e->getCode(), # 错误代码描述
                 'line' => $e->getLine(), # 错误代码行
                 'message' => $e->getMessage(), # 错误详细信息
-                'file' => $e->getFile() # 错误文件名称
+                'file' => $e->getFile(), # 错误文件名称,
+                'class_' => $class_,
+                "path_info" => \request()->host() . '/' . request()->pathinfo(),
+                "method" => request()->method(),
+                "ip" => request()->ip(),
             ];
 
             # 捕获错误处理异常
