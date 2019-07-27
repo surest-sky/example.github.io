@@ -9,10 +9,13 @@
 namespace app\common\exception;
 
 
+use think\Exception;
 use think\exception\HttpException;
 
 class RouteExceptionHandler extends BaseException implements CustomExceptionInterface
 {
+    public $level = 0;
+
     public function handler($e, array $err_info)
     {
         # 检测理由错误

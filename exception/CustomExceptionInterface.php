@@ -16,4 +16,6 @@ Interface CustomExceptionInterface {
     public function handler($e, array $error_info); # 接受异常处理
 
     public function showMsg($msg, array $error_info, $code); # 抛出错误消息
+
+    public function getLevel(): int ;
 }
