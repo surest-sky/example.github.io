@@ -43,7 +43,12 @@ composer 环境， 具体如何安装composer， 这里不作赘述
 
 `admin/auth` 下放置这个文件
 
+
+[https://github.com/surest-sky/example/blob/master/typecho/auth/qiniu.php](https://github.com/surest-sky/example/blob/master/typecho/auth/qiniu.php)
+
 `tools` 目录下放置这个文件
+
+[https://github.com/surest-sky/example/blob/master/typecho/qiniu_upload.php](https://github.com/surest-sky/example/blob/master/typecho/qiniu_upload.php)
 
 进入`admin/write-post.php` ， 插入语句
 
@@ -72,6 +77,7 @@ composer 环境， 具体如何安装composer， 这里不作赘述
 修改AK和SK
 
 进入 `auth/qiniu.php` 中
+
 
 修改 `$config` 配置
 
