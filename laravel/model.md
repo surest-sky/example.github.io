@@ -6,3 +6,20 @@
 二、skip，take （sikip 跳过几条，take 取多少条数据）
 
     Model::skip(3)->take(3)->get()；
+
+ORM
+
+创建 model
+
+    php artisan make:model Flight --migration
+
+主键
+
+    $primaryKey
+
+时间戳
+
+    public $timestamps = false
+
+
+
