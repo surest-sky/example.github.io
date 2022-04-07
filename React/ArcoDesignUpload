@@ -1,0 +1,164 @@
+import { Button, Message, Spin, Upload } from '@arco-design/web-react';
+import { IconUpload } from '@arco-design/web-react/icon';
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { getOssUrl } from '../apis/common';
+
+const UploadComponent = (props, ref) => {
+    const [action, setAction] = useState('/');
+    const [fileList, setFileList] = useState(props.defaultFileList ? props.defaultFileList : []);
+    const [loading, setLoading] = useState(false);
+    const uploadRef = useRef();
+
+    useImperativeHandle(ref, () => ({
+        click: () => {
+            console.log(uploadRef.current);
+            uploadRef.current.click();
+        },
+    }));
+
+    useEffect(() => {
+        console.log('props', props);
+        if (props.loadingchange) {
+            props.loadingchange(loading);
+        }
+    }, [loading]);
+
+    /**
+     * 获取配置相关
+     * @param {} param0
+     */
+    const beforeUpload = async ({ name, size }) => {
+        const { data, code, message } = await getOssUrl({ object: name });
+        if (code !== 200) {
+            Message.error(message);
+            return;
+        }
+        setAction(data.signedUrl);
+    };
+
+    /**
+     * 自定义请求
+     * @param {*} option
+     * @returns
+     */
+    const customRequest = async option => {
+        const { onProgress, onError, onSuccess, file } = option;
+        const xhr = new XMLHttpRequest();
+        xhr.open('PUT', action);
+
+        if (xhr.upload) {
+            xhr.upload.onprogress = function (event) {
+                let percent;
+                if (event.total > 0) {
+                    percent = (event.loaded / event.total) * 100;
+                }
+                onProgress(parseInt(percent, 10), event);
+            };
+        }
+        xhr.onerror = function error(e) {
+            setLoading(false);
+            onError(e);
+        };
+        xhr.onload = function onload() {
+            if (xhr.status < 200 || xhr.status >= 300) {
+                return onError(xhr.responseText);
+            }
+            onSuccess(xhr.responseText, xhr);
+            setLoading(false);
+            setTimeout(() => {
+                changeFiles();
+            }, 200);
+        };
+
+        const loadFileBob = file => {
+            return new Promise(resolve => {
+                let reader = new FileReader();
+                reader.readAsArrayBuffer(file);
+                let blob = null;
+                reader.onload = e => {
+                    if (typeof e.target.result === 'object') {
+                        blob = new Blob([e.target.result]);
+                    } else {
+                        blob = e.target.result;
+                    }
+                    resolve(blob);
+                };
+            });
+        };
+
+        setLoading(true);
+        const blob = await loadFileBob(file);
+        xhr.send(blob);
+
+        return {
+            abort() {
+                xhr.abort();
+            },
+        };
+    };
+
+    /**
+     * 变更
+     */
+    const onChange = fileList => {
+        const _fileList = fileList.map(file => {
+            if (!file.url) {
+                file.url = action.split('?')[0];
+            }
+            return file;
+        });
+        setFileList(_fileList);
+    };
+
+    const changeFiles = () => {
+        setFileList(fileList => {
+            let _fileList = fileList.filter(file => {
+                return file.status === 'done';
+            });
+
+            const limit = props.limit ? props.limit : 1;
+            if (limit === 1) {
+                if (_fileList.length === 0) {
+                    props.onChange('');
+                    return;
+                }
+                props.onChange(fileList[0]['url']);
+                return fileList;
+            }
+
+            props.onChange(fileList.map(file => file.url));
+            setLoading(false);
+            return fileList;
+        });
+    };
+
+    return (
+        <>
+            <div style={{ display: `${loading ? 'block' : 'none'}` }}>
+                <Spin />
+            </div>
+            <div style={{ display: `${loading ? 'none' : 'block'}` }}>
+                <Upload
+                    beforeUpload={beforeUpload}
+                    onAbort={() => {
+                        console.log('cancel');
+                    }}
+                    {...props}
+                    fileList={fileList}
+                    onChange={onChange}
+                    customRequest={customRequest}
+                >
+                    {props.text ? (
+                        <Button ref={uploadRef} icon={<IconUpload />} type="primary">
+                            {props.text}
+                        </Button>
+                    ) : (
+                        <></>
+                    )}
+                </Upload>
+            </div>
+        </>
+    );
+};
+
+export default forwardRef(UploadComponent);
