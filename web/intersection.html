@@ -144,7 +144,10 @@
                     lazyImage.setAttribute("src", "https://i.picsum.photos/id/1023/400/400.jpg?hmac=maIZbUj7YZWazRxkpv3aiALni4kh_xYP1Vzkf28IvhA")
                     const isC = lazyImage.getAttribute("data-class")
                     lazyImage.classList.add(isC)
-                    observer.unobserve(entry.target);
+                    // observer.unobserve(entry.target);
+                    setTimeout(() => {
+                        lazyImage.classList.remove(isC)
+                    }, 1000)
                 }
             });
         }
